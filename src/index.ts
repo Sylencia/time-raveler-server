@@ -6,7 +6,10 @@ import {
   type RoomInfoMessage,
   type RoomUpdateMessage,
   type RoomValidityMessage,
+  type TimerCreatedMessage,
   type TimerData,
+  type TimerDeletedMessage,
+  type TimerUpdateMessage,
   type UnsubscribeSuccessMessage,
 } from 'types/ClientMessageTypes';
 import { RoomAccess } from 'types/RoomTypes';
@@ -216,9 +219,9 @@ const handleCreateTimer = (ws: ServerWebSocket<WebSocketData>, accessId: string,
   server.publish(
     roomId,
     JSON.stringify({
-      type: 'roomUpdate',
-      timers: room.timers,
-    } as RoomUpdateMessage),
+      type: 'timerCreated',
+      timer,
+    } as TimerCreatedMessage),
   );
 };
 
@@ -240,9 +243,9 @@ const handleUpdateTimer = (ws: ServerWebSocket<WebSocketData>, accessId: string,
   server.publish(
     roomId,
     JSON.stringify({
-      type: 'roomUpdate',
-      timers: room.timers,
-    } as RoomUpdateMessage),
+      type: 'timerUpdate',
+      timer,
+    } as TimerUpdateMessage),
   );
 };
 
@@ -264,9 +267,9 @@ const handleDeleteTimer = (ws: ServerWebSocket<WebSocketData>, accessId: string,
   server.publish(
     roomId,
     JSON.stringify({
-      type: 'roomUpdate',
-      timers: room.timers,
-    } as RoomUpdateMessage),
+      type: 'timerDeleted',
+      id: timerId,
+    } as TimerDeletedMessage),
   );
 };
 

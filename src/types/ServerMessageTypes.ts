@@ -26,6 +26,21 @@ export interface RoomUpdateMessage {
   timers: TimerData[];
 }
 
+export interface TimerUpdateMessage {
+  type: 'timerUpdate';
+  timer: TimerData;
+}
+
+export interface TimerCreatedMessage {
+  type: 'timerCreated';
+  timer: TimerData;
+}
+
+export interface TimerDeletedMessage {
+  type: 'timerDeleted';
+  id: string;
+}
+
 export interface EditRoomInfoMessage extends ViewOnlyRoomInfoMessage {
   editAccessId: string;
 }
