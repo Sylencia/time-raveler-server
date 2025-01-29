@@ -77,6 +77,9 @@ const server = Bun.serve<WebSocketData>({
           case 'unsubscribe':
             handleUnsubscribe(ws, data.accessId);
             break;
+          case 'getRoomInfo':
+            handleGetRoomInfo(ws, data.accessId);
+            break;
           case 'createTimer':
             handleCreateTimer(ws, data.accessId, data.timer);
             break;
@@ -205,6 +208,22 @@ const handleUnsubscribe = (ws: ServerWebSocket<WebSocketData>, accessId: string)
   room.clients.delete(ws);
 
   ws.send(JSON.stringify({ type: 'unsubscribeSuccess' } as UnsubscribeSuccessMessage));
+};
+
+const handleGetRoomInfo = (ws: ServerWebSocket<WebSocketData>, accessId: string) => {
+  const context = getRoomFromAccessId(ws, accessId);
+  if (!context) {
+    return;
+  }
+
+  const { roomId } = context;
+
+  ws.send(
+    JSON.stringify({
+      type: 'roomUpdate',
+      timers: roomsMap.get(roomId)!.timers,
+    } as RoomUpdateMessage),
+  );
 };
 
 const handleCreateTimer = (ws: ServerWebSocket<WebSocketData>, accessId: string, timer: TimerData) => {

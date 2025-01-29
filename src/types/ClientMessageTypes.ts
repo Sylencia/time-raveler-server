@@ -15,6 +15,11 @@ export interface UnsubscribeMessage {
   accessId: string;
 }
 
+export interface GetRoomInfoMessage {
+  type: 'getRoomInfo';
+  accessId: string;
+}
+
 export interface CreateTimerMessage {
   type: 'createTimer';
   accessId: string;
@@ -42,6 +47,7 @@ export type ClientMessage =
   | CreateRoomMessage
   | SubscribeMessage
   | UnsubscribeMessage
+  | GetRoomInfoMessage
   | CreateTimerMessage
   | DeleteTimerMessage
   | UpdateTimerMessage
